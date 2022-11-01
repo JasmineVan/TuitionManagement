@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví điện tử</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- jQubery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div id="toast"></div>
+    <div class="container app-containter">
+        <header class="header">
+            <input type="checkbox" id="menu" class="header-checkbox">
+            <div class="header-logo">
+                iBanking
+            </div>
+            <div class="header-menu">
+                <label for="menu" class="header-menu-close">
+                    <ion-icon name="close"></ion-icon>
+                </label>
+                <ul class="header-list">
+                    <li class="header-item">
+                        <a href="./home.html" class="header-link">Home</a>
+                    </li>
+                    <li class="header-item">
+                        <a href="#!" class="header-link">Giao dịch <ion-icon name="caret-down-outline"></ion-icon></a>
+                        <ul class="header-sublist">
+                            <li class="header-subitem">
+                                <a href="./tuition.html" class="header-subitem-link">Đóng học phí</a>
+                            </li>
+                            <li class="header-subitem">
+                                <a href="" class="header-subitem-link">Rút Tiền</a>
+                            </li>
+                            <li class="header-subitem">
+                                <a href="" class="header-subitem-link">Nạp Tiền</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="header-item">
+                        <a href="" class="header-link">Thông tin cá nhân</a>
+                    </li> -->
+                    <li class="header-item">
+                        <a href="./history.html" class="header-link">Lịch Sử Giao Dịch</a>
+                    </li>
+                    <li class="header-item">
+                        <a href="" class="header-link" id="account-logout">Đăng Xuất</a>
+                    </li>
+        
+                </ul>
+            </div>
+            <label for="menu" class="back-drop"></label>
+            <label for="menu" class="header-btn-menu">
+                <ion-icon name="menu"></ion-icon>
+            </label>
+        </header>
+
+        <!-- Body -->
+        <section class="home">
+            <div class="home-left">
+                <section class="banking">
+                    <form class="banking-form" action="" method="POST">
+                        <div class="form-group">
+                            <label for="" class="form-label">Bên nhận</label>
+                            <input readonly type="text" class="form-input" value="TDTU" name="receive_transfer" id="receive_transfer">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">MSSV</label>
+                            <input type="text" class="form-input" placeholder="MSSV" name="mssv_transfer" id="mssv_transfer">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Số tiền</label>
+                            <input readonly type="number" class="form-input" placeholder="Money" name="money_transfer" id="money_transfer">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Mã OTP</label>
+                            <div class="">
+                                <input type="text" class="" placeholder="OTP code" name="otp_transfer" id="otp_transfer">
+                                <button type="button" id="btn_sendotp" class="btn btn-outline-success">Send OTP</button>
+                            </div>
+                        </div>
+                        <button class="btn-pri" id="btn_transfer">Xác nhận</button>
+                    </form>
+                </section>
+            </div>
+            <div class="home-right">
+                <div class="home-right">
+                    <h3 class="mb-2 home-right-title">Thông tin người dùng</h3>
+                    <div class="home-right-container">
+                        <div class="home-mycard">
+                            <h3 class="home-mycard-title">Họ và tên</h3>
+                            <h4 class="home-mycard-content" id="account-name"></h4>
+                            <h3 class="home-mycard-title">Số điện thoại</h3>
+                            <h4 class="home-mycard-content" id="account-phone"></h4>
+                            <h3 class="home-mycard-title">Email</h3>
+                            <h1 class="home-mycard-content" id="account-email"> VNĐ</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-right mt-32">
+                    <h3 class="mb-2 home-right-title mt-32">Số dư và học phí</h3>
+                    <div class="home-right-container">
+                        <div class="home-mycard">
+                            <h3 class="home-mycard-title">Số dư tài khoản</h3>
+                            <h4 class="home-mycard-content" id="account-balance"></h4>
+                            <h3 class="home-mycard-title">Số tiền học phí phải nộp</h3>
+                            <h4 class="home-mycard-content" id="account-tuition"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> 
+    </div>
+</body>
+<script src="../js/main.js"></script>
+<script>
+    
+    let account = localStorage.getItem("account")
+    console.log(account)
+    fetch('http://localhost:3000/user/tuition', {
+        headers:{
+			'Content-Type':'application/x-www-form-urlencoded'
+		}, 
+		method: 'POST',
+		body:'account=' + account,
+    })
+    .then(res => res.json())
+    .then(json => {
+        // console.log(json)
+        if(json.code === 0){
+            console.log(json.data)
+            document.querySelector('#account-phone').innerHTML = json.data.phone
+            document.querySelector('#account-name').innerHTML = json.data.name
+            document.querySelector('#account-email').innerHTML = json.data.email
+            document.querySelector('#account-balance').innerHTML = json.data.balance + ' ' + 'VND'
+            document.querySelector('#account-tuition').innerHTML = json.data.tuition + ' ' + 'VND'
+        }
+        else{
+            window.location.href = '../login.html'
+        }
+    })
+    .catch(e => console.log(e))
+
+    let account_logout = document.querySelector('#account-logout')
+    account_logout.onclick = (e) => {
+        e.preventDefault()
+        localStorage.clear();
+        window.location.href = '../login.html'
+    }
+
+
+</script>
+</html>
